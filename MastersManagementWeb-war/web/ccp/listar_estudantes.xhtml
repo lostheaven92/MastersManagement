@@ -11,27 +11,30 @@
     <ui:composition template="../templates/skeleton.xhtml">
         
         <ui:define name="main">
-            <h3> CCP - Listar Estudantes </h3>
-
+            <h3> CCP - Listagem de estudantes </h3>
+        
             <br /> <br />
         
-            <p:dataTable var="estudante" summary="List of all students" value="#{administratorManager.allEstudantes}">
-                <p:column headerText="Nome">
-                    <h:outputText value="#{estudante.nome}" />
-                </p:column>
-
-                <p:column headerText="E-mail">
-                    <h:outputText value="#{estudante.email}" />
-                </p:column>            
-
+            <em:dt  title="Estudantes" headers="#{['Nome', 'E-mail']}" 
+                    props="#{['nome', 'email']}"
+                    list="#{administratorManager.allEstudantes}">
+            
                 <p:column headerText="Actions">
                     <h:form>
-                        <h:commandLink value="Detalhes | " action="#" />
-                        <h:commandLink value="Editar | " action="#" />
-                        <h:commandLink value="Remover" action="#" />
+                        <h:commandLink value="Detalhes" action="detalhes_estudante?facesredirect=true">
+                            <!--<f:setPropertyActionListener target="{administratorManager.currentStudent}" value="{object}" /> ANTES DAS CHAVETAS, POR '#'  -->
+                        </h:commandLink>
+                        &nbsp;
+                        <h:commandLink value="Editar" action="editar_estudante?facesredirect=true">
+                            <!--<f:setPropertyActionListener target="{administratorManager.currentStudent}" value="{object}" /> ANTES DAS CHAVETAS, POR '#' -->
+                        </h:commandLink>
+                        &nbsp;
+                        <h:commandLink value="Eliminar"> <!--actionListener="{administratorManager.removeStudent}" --> <!-- ANTES DAS CHAVETAS, POR '#' -->
+                            <!--<f:param name="studentUsername" id="studentUsername" value="{object.username}" /> ANTES DAS CHAVETAS, POR '#' -->
+                        </h:commandLink>
                     </h:form>
-                </p:column>                        
-            </p:dataTable>
+                </p:column>
+            </em:dt>
                
         </ui:define>
     </ui:composition>
