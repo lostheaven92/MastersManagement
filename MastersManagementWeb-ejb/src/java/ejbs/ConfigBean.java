@@ -5,6 +5,9 @@
  */
 package ejbs;
 
+import exceptions.EntityAlreadyExistsException;
+import exceptions.EntityDoesNotExistsException;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
@@ -15,6 +18,7 @@ import javax.persistence.PersistenceContext;
 @Singleton
 @Startup
 public class ConfigBean {
+    private static final Logger logger = Logger.getLogger("ejbs.ConfigBean");    
     
     @PersistenceContext
     private EntityManager em;
@@ -24,9 +28,13 @@ public class ConfigBean {
     
     @PostConstruct
     public void populateDB(){
-        estudanteBean.create("a1", "Jose", "a1", "jose@dad.com");
-        estudanteBean.create("a2", "Jessica", "a2", "jessica@dad.com");
-        estudanteBean.create("a3", "Alberto", "a3", "alberto@dad.com");
+        try {
+            estudanteBean.criar("a1", "Jose", "a1", "jose@dad.com");
+            estudanteBean.criar("a2", "Jessica", "a2", "jessica@dad.com");
+            estudanteBean.criar("a3", "Alberto", "a3", "alberto@dad.com");
+        } catch (Exception e) {
+            logger.warning(e.getMessage());
+        }
     }
 
 }

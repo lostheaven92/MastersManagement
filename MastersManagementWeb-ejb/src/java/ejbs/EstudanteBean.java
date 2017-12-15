@@ -7,8 +7,14 @@ package ejbs;
 
 import dtos.EstudanteDTO;
 import entities.Estudante;
+import exceptions.EntityAlreadyExistsException;
+import exceptions.EntityDoesNotExistsException;
+import exceptions.MyConstraintViolationException;
+import exceptions.Utils;
 import java.util.Collection;
+import javax.ejb.EJBException;
 import javax.ejb.Stateless;
+import javax.validation.ConstraintViolationException;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -17,10 +23,23 @@ import javax.ws.rs.core.MediaType;
 @Stateless
 @Path("/students")
 public class EstudanteBean extends Bean<Estudante>{
-
-    public void create(String username, String name, String password, String email){
-        Estudante novoEstudante = new Estudante(username, name, password, email);
-        em.persist(novoEstudante);
+    private static final String ERR_STDNT_EXISTS = "A user with that username already exists.";
+    
+    public void criar(String username, String password, String name, String email)
+            throws EntityAlreadyExistsException, EntityDoesNotExistsException, MyConstraintViolationException {
+        try {
+            if (em.find(Estudante.class, username) != null) {
+                throw new EntityAlreadyExistsException(ERR_STDNT_EXISTS);
+            }
+            Estudante estudante = new Estudante(username, password, name, email);
+            em.persist(estudante);
+        } catch (EntityAlreadyExistsException e) {
+            throw e;
+        } catch (ConstraintViolationException e) {
+            throw new MyConstraintViolationException(Utils.getConstraintViolationMessages(e));
+        } catch (Exception e) {
+            throw new EJBException(e.getMessage());
+        }
     }
     
     @GET
