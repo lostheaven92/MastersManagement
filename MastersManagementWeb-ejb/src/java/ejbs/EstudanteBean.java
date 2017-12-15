@@ -8,7 +8,6 @@ package ejbs;
 import entities.Estudante;
 import java.util.Collection;
 import javax.ejb.Stateless;
-import java.util.List;
 
 @Stateless
 public class EstudanteBean extends Bean<Estudante>{
