@@ -31,7 +31,7 @@ public class EstudanteBean extends Bean<Estudante>{
             if (em.find(Estudante.class, username) != null) {
                 throw new EntityAlreadyExistsException(ERR_STDNT_EXISTS);
             }
-            Estudante estudante = new Estudante(username, password, name, email);
+            Estudante estudante = new Estudante(username, name, password, email);
             em.persist(estudante);
         } catch (EntityAlreadyExistsException e) {
             throw e;
