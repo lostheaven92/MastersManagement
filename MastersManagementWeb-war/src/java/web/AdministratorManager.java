@@ -5,8 +5,8 @@
  */
 package web;
 
+import dtos.EstudanteDTO;
 import ejbs.EstudanteBean;
-import entities.Estudante;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.ejb.EJB;
@@ -23,7 +23,7 @@ public class AdministratorManager implements Serializable{
     public AdministratorManager() {
     }
     
-    public Collection<Estudante> getAllEstudantes(){
+    public Collection<EstudanteDTO> getAllEstudantes(){
         return estudanteBean.getAllREST();
     }
 }

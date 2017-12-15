@@ -5,6 +5,7 @@
  */
 package ejbs;
 
+import dtos.EstudanteDTO;
 import entities.Estudante;
 import java.util.Collection;
 import javax.ejb.Stateless;
@@ -17,8 +18,8 @@ public class EstudanteBean extends Bean<Estudante>{
         em.persist(novoEstudante);
     }
     
-    public Collection<Estudante> getAllREST(){
-        return this.getAll();
+    public Collection<EstudanteDTO> getAllREST(){
+        return this.getAll(EstudanteDTO.class);
     }
     
     @Override
