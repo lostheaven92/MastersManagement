@@ -9,8 +9,13 @@ import dtos.EstudanteDTO;
 import entities.Estudante;
 import java.util.Collection;
 import javax.ejb.Stateless;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 @Stateless
+@Path("/students")
 public class EstudanteBean extends Bean<Estudante>{
 
     public void create(String username, String name, String password, String email){
@@ -18,6 +23,9 @@ public class EstudanteBean extends Bean<Estudante>{
         em.persist(novoEstudante);
     }
     
+    @GET
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Path("all")
     public Collection<EstudanteDTO> getAllREST(){
         return this.getAll(EstudanteDTO.class);
     }
