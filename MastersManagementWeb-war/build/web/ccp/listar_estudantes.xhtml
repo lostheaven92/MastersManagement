@@ -1,36 +1,38 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-    <h:head>
-        <title>CCP Menu</title>
-        <h:outputStylesheet library="css" name="bootstrap.min.css" />
-    </h:head>
-    <h:body>
-        <h3> CCP - Listar Estudantes </h3>
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:em="http://xmlns.jcp.org/jsf/composite/emcomp"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+ 
+    <ui:composition template="../templates/skeleton.xhtml">
         
-        <br /> <br />
-        
-        <p:dataTable var="estudante" summary="List of all students" value="#{administratorManager.allEstudantes}">
-            <p:column headerText="Nome">
-                <h:outputText value="#{estudante.nome}" />
-            </p:column>
-            
-            <p:column headerText="E-mail">
-                <h:outputText value="#{estudante.email}" />
-            </p:column>            
-            
-            <p:column headerText="Actions">
-                <h:form>
-                    <h:commandLink value="Detalhes | " action="#" />
-                    <h:commandLink value="Editar | " action="#" />
-                    <h:commandLink value="Remover" action="#" />
-                </h:form>
-            </p:column>                        
-        </p:dataTable>
-               
-    </h:body>
-</html>
+        <ui:define name="main">
+            <h3> CCP - Listar Estudantes </h3>
 
+            <br /> <br />
+        
+            <p:dataTable var="estudante" summary="List of all students" value="#{administratorManager.allEstudantes}">
+                <p:column headerText="Nome">
+                    <h:outputText value="#{estudante.nome}" />
+                </p:column>
+
+                <p:column headerText="E-mail">
+                    <h:outputText value="#{estudante.email}" />
+                </p:column>            
+
+                <p:column headerText="Actions">
+                    <h:form>
+                        <h:commandLink value="Detalhes | " action="#" />
+                        <h:commandLink value="Editar | " action="#" />
+                        <h:commandLink value="Remover" action="#" />
+                    </h:form>
+                </p:column>                        
+            </p:dataTable>
+               
+        </ui:define>
+    </ui:composition>
+</html>
