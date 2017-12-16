@@ -8,7 +8,6 @@ package web;
 import dtos.EstudanteDTO;
 import ejbs.EstudanteBean;
 import exceptions.EntityAlreadyExistsException;
-import exceptions.EntityDoesNotExistsException;
 import exceptions.MyConstraintViolationException;
 import java.io.Serializable;
 import java.util.Collection;
@@ -19,6 +18,9 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.MediaType;
+import util.URILookup;
 
 @ManagedBean
 @SessionScoped
@@ -53,16 +55,25 @@ public class AdministratorManager implements Serializable{
         }
     }
 
-    public String criarEstudante() {
-
+    public String criarEstudanteREST() {
         try {
-            estudanteBean.criar(
-                    novoEstudante.getUsername(),
-                    novoEstudante.getPassword(),
-                    novoEstudante.getNome(),
-                    novoEstudante.getEmail());
+            client.target(URILookup.getBaseAPI())
+                    .path("/students/create")
+                    .request(MediaType.APPLICATION_XML)
+                    .post(Entity.xml(novoEstudante));
+        
+        } catch (Exception e) {
+            FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
+            return null;
+        }
+        return "listar_estudantes?faces-redirect=true";
+    }
+    
+    public String criarEstudante() {
+        try {
+            estudanteBean.criar(novoEstudante.getUsername(),novoEstudante.getPassword(),novoEstudante.getNome(),novoEstudante.getEmail());
             novoEstudante.reset();
-        } catch (EntityAlreadyExistsException | EntityDoesNotExistsException | MyConstraintViolationException e) {
+        } catch (EntityAlreadyExistsException | MyConstraintViolationException e) {
             FacesExceptionHandler.handleException(e, e.getMessage(), component, logger);
             return null;
         } catch (Exception e) {

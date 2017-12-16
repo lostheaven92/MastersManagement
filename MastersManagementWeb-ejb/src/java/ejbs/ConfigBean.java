@@ -29,9 +29,9 @@ public class ConfigBean {
     @PostConstruct
     public void populateDB(){
         try {
-            estudanteBean.criar("a1", "Jose", "a1", "jose@dad.com");
-            estudanteBean.criar("a2", "Jessica", "a2", "jessica@dad.com");
-            estudanteBean.criar("a3", "Alberto", "a3", "alberto@dad.com");
+            estudanteBean.criar("a1", "a1", "Jose", "jose@dad.com");
+            estudanteBean.criar("a2", "a2", "Jessica", "jessica@dad.com");
+            estudanteBean.criar("a3", "a3", "Alberto", "alberto@dad.com");
         } catch (Exception e) {
             logger.warning(e.getMessage());
         }

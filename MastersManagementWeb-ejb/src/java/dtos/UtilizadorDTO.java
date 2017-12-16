@@ -12,10 +12,10 @@ public class UtilizadorDTO implements Serializable{
     public UtilizadorDTO() {
     }    
     
-    public UtilizadorDTO(String username, String password, String name, String email) {
+    public UtilizadorDTO(String username, String password, String nome, String email) {
         this.username = username;
         this.password = password;
-        this.nome = name;
+        this.nome = nome;
         this.email = email;
     }
     
@@ -46,8 +46,8 @@ public class UtilizadorDTO implements Serializable{
         return nome;
     }
 
-    public void setNome(String name) {
-        this.nome = name;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getEmail() {
