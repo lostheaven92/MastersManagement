@@ -8,6 +8,7 @@ package ejbs;
 import dtos.EstudanteDTO;
 import entities.Estudante;
 import exceptions.EntityAlreadyExistsException;
+import exceptions.EntityDoesNotExistsException;
 import exceptions.MyConstraintViolationException;
 import exceptions.Utils;
 import java.util.Collection;
@@ -66,5 +67,27 @@ public class EstudanteBean extends Bean<Estudante>{
     @Override
     protected Collection<Estudante> getAll() {
         return em.createNamedQuery("getAllStudents").getResultList();
+    }
+
+    public void editar(String username, String password, String nome, String email)
+            throws EntityDoesNotExistsException, MyConstraintViolationException {
+        try {
+            Estudante estudante = em.find(Estudante.class, username);
+            if (estudante == null) {
+                throw new EntityDoesNotExistsException("Não existe nenhum estudante com esse username.");
+            }
+            System.out.println("Ola");
+            estudante.setPassword(password);
+            estudante.setNome(nome);
+            estudante.setEmail(email);
+            em.merge(estudante);
+
+        } catch (EntityDoesNotExistsException e) {
+            throw e;
+        } catch (ConstraintViolationException e) {
+            throw new MyConstraintViolationException(Utils.getConstraintViolationMessages(e));
+        } catch (Exception e) {
+            throw new EJBException(e.getMessage());
+        }
     }
 }

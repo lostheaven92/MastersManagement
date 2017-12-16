@@ -1,0 +1,52 @@
+<html   xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <composite:interface>
+        <composite:attribute name="myId"            required="true"     shortDescription="Unique identifier will be rendered as html ID" />
+        <composite:attribute name="name"            required="true"     shortDescription="Value to display on the grid"/>
+        <composite:attribute name="errorMessage"    required="true"     shortDescription="Error message to show when empty field"/>
+        <composite:attribute name="value"           required="true"     shortDescription="Value got by bean might be null/empty depending on the context"/>
+        <composite:attribute name="myValidator"     required="false"    shortDescription="Optional validator" />  
+    </composite:interface>
+
+    <composite:implementation>
+        <h:outputLabel for="#{cc.attrs.myId}" value="#{cc.attrs.name}" />        
+        
+        <c:choose> 
+            <c:when test = "#{cc.attrs.name eq 'Password'}">
+                <h:inputSecret 
+                    id="#{cc.attrs.myId}"
+                    size="52"
+                    required="true"
+                    requiredMessage="#{cc.attrs.errorMessage}"
+                    value="#{cc.attrs.value}"> 
+                    <c:if test="#{cc.attrs.myValidator ne null}">
+                        <f:validator validatorId="#{cc.attrs.myValidator}"/>
+                    </c:if>
+                </h:inputSecret>
+            </c:when>
+
+            <c:otherwise>
+                <h:inputText 
+                    id="#{cc.attrs.myId}"
+                    size="52"
+                    required="true"
+                    requiredMessage="#{cc.attrs.errorMessage}"
+                    value="#{cc.attrs.value}"> 
+                    <c:if test="#{cc.attrs.myValidator ne null}">
+                        <f:validator validatorId="#{cc.attrs.myValidator}"/>
+                    </c:if>
+                    <c:if test="#{cc.attrs.name eq 'Email'}">
+                        <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+                    </c:if>
+                    <composite:insertChildren />
+                </h:inputText>
+            </c:otherwise>
+        </c:choose>
+        
+        <h:message for="#{cc.attrs.myId}" errorStyle="color: red" />
+    </composite:implementation>
+</html>

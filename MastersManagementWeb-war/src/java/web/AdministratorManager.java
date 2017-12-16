@@ -7,7 +7,7 @@ package web;
 
 import dtos.EstudanteDTO;
 import ejbs.EstudanteBean;
-import exceptions.EntityAlreadyExistsException;
+import exceptions.EntityDoesNotExistsException;
 import exceptions.MyConstraintViolationException;
 import java.io.Serializable;
 import java.util.Collection;
@@ -27,6 +27,8 @@ import util.URILookup;
 public class AdministratorManager implements Serializable{
     // ---------------------------- ERROR MESSAGES ----------------------------
     private static final String CONST_ERR_OTHER = "Erro inesperado! Tente novamente mais tarde!";
+    
+    private static final String CONST_LISTAR_URL = "listar?faces-redirect=true";
     
     private static final Logger logger = Logger.getLogger("web.AdministratorManager");
     
@@ -64,10 +66,29 @@ public class AdministratorManager implements Serializable{
                     .post(Entity.xml(novoEstudante));
         
         } catch (Exception e) {
-            FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
+            FacesExceptionHandler.handleException(e, CONST_ERR_OTHER, logger);
             return null;
         }
-        return "listar_estudantes?faces-redirect=true";
+        return CONST_LISTAR_URL;
+    }
+    
+    public String editar() {
+        System.out.println("HEY!");
+        try {
+            estudanteBean.editar(
+                    estudanteAtual.getUsername(),
+                    estudanteAtual.getPassword(),
+                    estudanteAtual.getNome(),
+                    estudanteAtual.getEmail());
+
+        } catch (EntityDoesNotExistsException | MyConstraintViolationException e) {
+            FacesExceptionHandler.handleException(e, e.getMessage(), logger);
+            return null;
+        } catch (Exception e) {
+            FacesExceptionHandler.handleException(e, CONST_ERR_OTHER, logger);
+            return null;
+        }
+        return CONST_LISTAR_URL;
     }
     
     /*public String criarEstudante() {

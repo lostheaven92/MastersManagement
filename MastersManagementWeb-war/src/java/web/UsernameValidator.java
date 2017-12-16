@@ -31,12 +31,6 @@ public class UsernameValidator implements Validator {
                 context.addMessage(toValidate.getClientId(context), message);
                 ((UIInput) toValidate).setValid(false);
             }
-            if(username.length() < 5){
-                FacesMessage message = new FacesMessage(ERR_USERNAME_LENGTH_LESS_5);
-                message.setSeverity(FacesMessage.SEVERITY_ERROR);
-                context.addMessage(toValidate.getClientId(context), message);
-                ((UIInput) toValidate).setValid(false);
-            }
         } catch (Exception e) {
             FacesExceptionHandler.handleException(e, "Unkown error.", logger);
         }

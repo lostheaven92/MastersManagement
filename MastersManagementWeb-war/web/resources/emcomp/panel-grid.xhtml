@@ -1,0 +1,31 @@
+<html   xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:em="http://xmlns.jcp.org/jsf/composite/emcomp"
+        xmlns:composite="http://xmlns.jcp.org/jsf/composite">
+
+    <composite:interface>
+       <composite:attribute name="object"               required="true"/>
+    </composite:interface>
+    
+    <composite:implementation>
+
+        <h:panelGrid columns="1" class="table" style="width: 10%">
+            <em:panel-grid-element value="#{cc.attrs.object.username}" 
+                    errorMessage="ERRO: Username não pode estar vazio!" name="Username" 
+                    myId="username" myValidator="usernameValidator"/>
+                    
+            <em:panel-grid-element value="#{cc.attrs.object.password}" 
+                errorMessage="ERRO: Password não pode estar vazia!" name="Password" 
+                myId="password"/>
+
+            <em:panel-grid-element value="#{cc.attrs.object.nome}" 
+                errorMessage="ERRO: Nome não pode estar vazio!" name="Nome" 
+                myId="name"/>
+
+            <em:panel-grid-element value="#{cc.attrs.object.email}" 
+                errorMessage="Error: Email não pode estar vazio!" name="Email" 
+                myId="email" />            
+        </h:panelGrid>
+    
+    </composite:implementation>
+</html>

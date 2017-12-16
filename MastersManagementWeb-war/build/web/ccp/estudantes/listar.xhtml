@@ -29,8 +29,8 @@
                             <f:setPropertyActionListener target="#{administratorManager.estudanteAtual}" value="#{object}" />
                         </h:commandLink>
                         &nbsp;
-                        <h:commandLink value="Editar" action="editar_estudante?facesredirect=true">
-                            <!--<f:setPropertyActionListener target="{administratorManager.currentStudent}" value="{object}" /> ANTES DAS CHAVETAS, POR '#' -->
+                        <h:commandLink value="Editar" action="editar?facesredirect=true">
+                            <f:setPropertyActionListener target="#{administratorManager.estudanteAtual}" value="#{object}" />
                         </h:commandLink>
                         &nbsp;
                         <h:commandLink value="Eliminar"> <!--actionListener="{administratorManager.removeStudent}" --> <!-- ANTES DAS CHAVETAS, POR '#' -->
