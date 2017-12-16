@@ -72,8 +72,22 @@ public class AdministratorManager implements Serializable{
         return CONST_LISTAR_URL;
     }
     
+    public String editarREST() {
+        try {
+            client.target(URILookup.getBaseAPI())
+                    .path("/students/update")
+                    .request(MediaType.APPLICATION_XML)
+                    .put(Entity.xml(estudanteAtual));
+        
+        } catch (Exception e) {
+            FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
+            return null;
+        }
+
+        return CONST_LISTAR_URL;
+    }
+    
     public String editar() {
-        System.out.println("HEY!");
         try {
             estudanteBean.editar(
                     estudanteAtual.getUsername(),

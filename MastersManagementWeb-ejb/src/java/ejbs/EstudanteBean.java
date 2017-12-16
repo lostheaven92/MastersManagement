@@ -18,6 +18,7 @@ import javax.validation.ConstraintViolationException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -69,6 +70,23 @@ public class EstudanteBean extends Bean<Estudante>{
         return em.createNamedQuery("getAllStudents").getResultList();
     }
 
+    @PUT
+    @Path("/update")
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public void updateREST(EstudanteDTO student) throws EntityDoesNotExistsException, MyConstraintViolationException {
+        try {
+            editar(
+                    student.getUsername(),
+                    student.getPassword(),
+                    student.getNome(),
+                    student.getEmail());
+        } catch (EntityDoesNotExistsException | MyConstraintViolationException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new EJBException(e.getMessage());
+        }
+    }
+    
     public void editar(String username, String password, String nome, String email)
             throws EntityDoesNotExistsException, MyConstraintViolationException {
         try {
