@@ -34,6 +34,7 @@ public class AdministratorManager implements Serializable{
     private EstudanteBean estudanteBean;
     
     private EstudanteDTO novoEstudante;
+    private EstudanteDTO estudanteAtual;
     private Client client;
     private UIComponent component;
     
@@ -69,7 +70,7 @@ public class AdministratorManager implements Serializable{
         return "listar_estudantes?faces-redirect=true";
     }
     
-    public String criarEstudante() {
+    /*public String criarEstudante() {
         try {
             estudanteBean.criar(novoEstudante.getUsername(),novoEstudante.getPassword(),novoEstudante.getNome(),novoEstudante.getEmail());
             novoEstudante.reset();
@@ -82,6 +83,14 @@ public class AdministratorManager implements Serializable{
         }
         
         return "listar_estudantes?faces-redirect=true";
+    }*/
+
+    public EstudanteDTO getEstudanteAtual() {
+        return estudanteAtual;
+    }
+
+    public void setEstudanteAtual(EstudanteDTO estudanteAtual) {
+        this.estudanteAtual = estudanteAtual;
     }
     
     public EstudanteDTO getNovoEstudante() {
