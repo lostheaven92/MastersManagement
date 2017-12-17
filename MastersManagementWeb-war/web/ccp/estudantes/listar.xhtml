@@ -21,7 +21,7 @@
         
             <em:dt  title="Estudantes" headers="#{['Nome', 'E-mail']}" 
                     props="#{['nome', 'email']}"
-                    list="#{administratorManager.allEstudantesREST}">
+                    list="#{administratorManager.all}">
             
                 <p:column headerText="Actions">
                     <h:form>
@@ -33,8 +33,8 @@
                             <f:setPropertyActionListener target="#{administratorManager.estudanteAtual}" value="#{object}" />
                         </h:commandLink>
                         &nbsp;
-                        <h:commandLink value="Eliminar"> <!--actionListener="{administratorManager.removeStudent}" --> <!-- ANTES DAS CHAVETAS, POR '#' -->
-                            <!--<f:param name="studentUsername" id="studentUsername" value="{object.username}" /> ANTES DAS CHAVETAS, POR '#' -->
+                        <h:commandLink value="Eliminar" actionListener="#{administratorManager.eliminar}">
+                            <f:param name="studentUsername" id="studentUsername" value="#{object.username}" />
                         </h:commandLink>
                     </h:form>
                 </p:column>

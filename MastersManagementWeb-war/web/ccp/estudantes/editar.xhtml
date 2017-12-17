@@ -8,7 +8,7 @@
  
     <ui:composition template="../../templates/form_estudante.xhtml">
         <ui:define name="main-body">
-            <em:panel-grid object="#{administratorManager.estudanteAtual}" />
+            <em:panel-grid object="#{administratorManager.estudanteAtual}" idDisabled="true" />
         </ui:define>
         <ui:define name="button-submit" >
             <p:commandButton
@@ -16,7 +16,7 @@
                 value="EDITAR"
                 styleClass="btn btn-success"
                 binding="#{administratorManager.component}" 
-                action="#{administratorManager.editarREST()}" /> 
+                action="#{administratorManager.editar()}" /> 
             <h:message for="submit" style="color: red" />
         </ui:define>
     </ui:composition>

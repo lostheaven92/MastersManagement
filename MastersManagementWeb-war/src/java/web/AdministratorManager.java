@@ -7,8 +7,6 @@ package web;
 
 import dtos.EstudanteDTO;
 import ejbs.EstudanteBean;
-import exceptions.EntityDoesNotExistsException;
-import exceptions.MyConstraintViolationException;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.logging.Logger;
@@ -21,6 +19,9 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import util.URILookup;
+import javax.faces.event.ActionEvent;
+import javax.faces.component.UIParameter;
+import javax.ws.rs.core.GenericType;
 
 @ManagedBean
 @SessionScoped
@@ -45,81 +46,63 @@ public class AdministratorManager implements Serializable{
         client = ClientBuilder.newClient();
     }
     
-    public Collection<EstudanteDTO> getAllEstudantes(){
-        return estudanteBean.getAllREST();
-    }
-    
-    public Collection<EstudanteDTO> getAllEstudantesREST() {
+    public void eliminar(ActionEvent event){
         try {
-            return estudanteBean.getAllREST();
+            UIParameter param = (UIParameter) event.getComponent().findComponent("studentUsername");
+            String username = param.getValue().toString();
+            
+            client.target(URILookup.getBaseAPI())
+                    .path("/students/remove")
+                    .path(username)
+                    .request(MediaType.APPLICATION_XML)
+                    .delete(String.class);
+            
         } catch (Exception e) {
             FacesExceptionHandler.handleException(e, CONST_ERR_OTHER, logger);
-            return null;
         }
     }
 
-    public String criarEstudanteREST() {
+    public String criar() {
         try {
             client.target(URILookup.getBaseAPI())
                     .path("/students/create")
                     .request(MediaType.APPLICATION_XML)
                     .post(Entity.xml(novoEstudante));
-        
         } catch (Exception e) {
             FacesExceptionHandler.handleException(e, CONST_ERR_OTHER, logger);
             return null;
         }
-        return CONST_LISTAR_URL;
-    }
-    
-    public String editarREST() {
-        try {
-            client.target(URILookup.getBaseAPI())
-                    .path("/students/update")
-                    .request(MediaType.APPLICATION_XML)
-                    .put(Entity.xml(estudanteAtual));
-        
-        } catch (Exception e) {
-            FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
-            return null;
-        }
-
         return CONST_LISTAR_URL;
     }
     
     public String editar() {
         try {
-            estudanteBean.editar(
-                    estudanteAtual.getUsername(),
-                    estudanteAtual.getPassword(),
-                    estudanteAtual.getNome(),
-                    estudanteAtual.getEmail());
-
-        } catch (EntityDoesNotExistsException | MyConstraintViolationException e) {
-            FacesExceptionHandler.handleException(e, e.getMessage(), logger);
-            return null;
+            client.target(URILookup.getBaseAPI())
+                    .path("/students/update")
+                    .request(MediaType.APPLICATION_XML)
+                    .put(Entity.xml(estudanteAtual));
         } catch (Exception e) {
             FacesExceptionHandler.handleException(e, CONST_ERR_OTHER, logger);
             return null;
         }
+
         return CONST_LISTAR_URL;
     }
     
-    /*public String criarEstudante() {
-        try {
-            estudanteBean.criar(novoEstudante.getUsername(),novoEstudante.getPassword(),novoEstudante.getNome(),novoEstudante.getEmail());
-            novoEstudante.reset();
-        } catch (EntityAlreadyExistsException | MyConstraintViolationException e) {
-            FacesExceptionHandler.handleException(e, e.getMessage(), component, logger);
-            return null;
-        } catch (Exception e) {
-            FacesExceptionHandler.handleException(e, CONST_ERR_OTHER, component, logger);
+    public Collection<EstudanteDTO> getAll() {
+        try{
+            GenericType<Collection<EstudanteDTO>> lista = new GenericType<Collection<EstudanteDTO>>() {};
+            Collection<EstudanteDTO> estudantes = client.target(URILookup.getBaseAPI())
+                .path("/students/all")
+                .request(MediaType.APPLICATION_XML)
+                .get(lista);
+            return estudantes;
+        } catch(Exception e){
+            FacesExceptionHandler.handleException(e, CONST_ERR_OTHER, logger);
             return null;
         }
-        
-        return "listar_estudantes?faces-redirect=true";
-    }*/
-
+    }
+    
     public EstudanteDTO getEstudanteAtual() {
         return estudanteAtual;
     }

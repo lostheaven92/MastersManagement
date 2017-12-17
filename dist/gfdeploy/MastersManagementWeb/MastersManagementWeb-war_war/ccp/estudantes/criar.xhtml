@@ -65,7 +65,7 @@
                         id="submit"
                         value="CRIAR"
                         binding="#{administratorManager.component}"
-                        action="#{administratorManager.criarEstudanteREST()}" />
+                        action="#{administratorManager.criar()}" />
                     <h:message for="submit" style="color: red"/>
                 </h:panelGrid >
             </h:form>
@@ -75,7 +75,7 @@
     <!-- UTILIZANDO form_estudante -->
     <ui:composition template="../../templates/form_estudante.xhtml">
         <ui:define name="main-body">
-            <em:panel-grid object="#{administratorManager.novoEstudante}" />
+            <em:panel-grid object="#{administratorManager.novoEstudante}" idDisabled="false" />
         </ui:define>
         <ui:define name="button-submit" >
             <p:commandButton
@@ -83,7 +83,7 @@
                 value="CRIAR"
                 styleClass="btn btn-success"
                 binding="#{administratorManager.component}" 
-                action="#{administratorManager.criarEstudanteREST()}" /> 
+                action="#{administratorManager.criar()}" /> 
             <h:message for="submit" style="color: red" />
         </ui:define>
     </ui:composition>

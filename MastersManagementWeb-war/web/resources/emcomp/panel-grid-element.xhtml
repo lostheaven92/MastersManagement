@@ -10,6 +10,7 @@
         <composite:attribute name="errorMessage"    required="true"     shortDescription="Error message to show when empty field"/>
         <composite:attribute name="value"           required="true"     shortDescription="Value got by bean might be null/empty depending on the context"/>
         <composite:attribute name="myValidator"     required="false"    shortDescription="Optional validator" />  
+        <composite:attribute name="idDisabled"      required="true" />  
     </composite:interface>
 
     <composite:implementation>
@@ -29,6 +30,10 @@
                 </h:inputSecret>
             </c:when>
 
+            <c:when test = "#{(cc.attrs.idDisabled eq true) and (cc.attrs.name eq 'Username')}">
+                <h:outputText id="#{cc.attrs.myId}" value="#{': '.concat(cc.attrs.value)}" /> 
+            </c:when>
+            
             <c:otherwise>
                 <h:inputText 
                     id="#{cc.attrs.myId}"
