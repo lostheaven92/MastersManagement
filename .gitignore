@@ -1,0 +1,17 @@
+build/*
+dist/*
+nbproject/*
+src/*
+build.xml
+MastersManagementWeb-ejb/build/*
+MastersManagementWeb-ejb/dist/*
+MastersManagementWeb-ejb/nbproject/*
+MastersManagementWeb-ejb/setup/*
+MastersManagementWeb-ejb/test/*
+MastersManagementWeb-ejb/build.xml
+MastersManagementWeb-war/build/*
+MastersManagementWeb-war/dist/*
+MastersManagementWeb-war/nbproject/*
+MastersManagementWeb-war/test/*
+MastersManagementWeb-war/build.xml
+MastersManagementWeb-war/persistence.xml
