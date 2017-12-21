@@ -6,12 +6,16 @@
 package entities;
 
 import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 /**
  *
  * @author Alberto
  */
+@Table(name="PROFESSORES")
 @Entity
+@NamedQuery(name = "getAllProfessores", query = "SELECT p FROM Professor p")
 public class Professor extends Utilizador{
 
     //private List<PropostaTrabalho> propostasTrabalho;
@@ -22,6 +26,8 @@ public class Professor extends Utilizador{
     public Professor(String username, String name, String password, String email) {
         super(username, name, password, email);
     }
+    
+    
     
     
 }

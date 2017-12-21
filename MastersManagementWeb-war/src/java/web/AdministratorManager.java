@@ -7,7 +7,9 @@ package web;
 
 import dtos.EstudanteDTO;
 import dtos.InstituicaoDTO;
+import dtos.ProfessorDTO;
 import ejbs.EstudanteBean;
+import ejbs.ProfessorBean;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.logging.Logger;
@@ -37,8 +39,14 @@ public class AdministratorManager implements Serializable{
     @EJB
     private EstudanteBean estudanteBean;
     
+    @EJB
+    private ProfessorBean professorBean;
+    
+    
     private EstudanteDTO novoEstudante;
     private EstudanteDTO estudanteAtual;
+    private ProfessorDTO novoProfessor;
+    private ProfessorDTO professorAtual;
     private Client client;
     private UIComponent component;
     
@@ -62,6 +70,22 @@ public class AdministratorManager implements Serializable{
             FacesExceptionHandler.handleException(e, CONST_ERR_OTHER, logger);
         }
     }
+    
+    public void eliminarProfessor(ActionEvent event){
+        try {
+            UIParameter param = (UIParameter) event.getComponent().findComponent("professorUsername");
+            String username = param.getValue().toString();
+            
+            client.target(URILookup.getBaseAPI())
+                    .path("/professores/remove")
+                    .path(username)
+                    .request(MediaType.APPLICATION_XML)
+                    .delete(String.class);
+            
+        } catch (Exception e) {
+            FacesExceptionHandler.handleException(e, CONST_ERR_OTHER, logger);
+        }
+    }
 
     public String criarEstudante() {
         try {
@@ -76,10 +100,37 @@ public class AdministratorManager implements Serializable{
         return CONST_LISTAR_URL;
     }
     
+    public String criarProfessor() {
+        try {
+            client.target(URILookup.getBaseAPI())
+                    .path("/professores/create")
+                    .request(MediaType.APPLICATION_XML)
+                    .post(Entity.xml(novoEstudante));
+        } catch (Exception e) {
+            FacesExceptionHandler.handleException(e, CONST_ERR_OTHER, logger);
+            return null;
+        }
+        return CONST_LISTAR_URL;
+    }
+    
     public String editarEstudante() {
         try {
             client.target(URILookup.getBaseAPI())
                     .path("/students/update")
+                    .request(MediaType.APPLICATION_XML)
+                    .put(Entity.xml(estudanteAtual));
+        } catch (Exception e) {
+            FacesExceptionHandler.handleException(e, CONST_ERR_OTHER, logger);
+            return null;
+        }
+
+        return CONST_LISTAR_URL;
+    }
+    
+    public String editarProfessor() {
+        try {
+            client.target(URILookup.getBaseAPI())
+                    .path("/professores/update")
                     .request(MediaType.APPLICATION_XML)
                     .put(Entity.xml(estudanteAtual));
         } catch (Exception e) {
@@ -104,6 +155,20 @@ public class AdministratorManager implements Serializable{
         }
     }
     
+    public Collection<ProfessorDTO> getAllProfessores() {
+        try{
+            GenericType<Collection<ProfessorDTO>> lista = new GenericType<Collection<ProfessorDTO>>() {};
+            Collection<ProfessorDTO> professores = client.target(URILookup.getBaseAPI())
+                .path("/professores/all")
+                .request(MediaType.APPLICATION_XML)
+                .get(lista);
+            return professores;
+        } catch(Exception e){
+            FacesExceptionHandler.handleException(e, CONST_ERR_OTHER, logger);
+            return null;
+        }
+    }
+    
         public Collection<InstituicaoDTO> getAllInstituicoes() {
         try{
             GenericType<Collection<InstituicaoDTO>> lista = new GenericType<Collection<InstituicaoDTO>>() {};
@@ -117,6 +182,7 @@ public class AdministratorManager implements Serializable{
             return null;
         }
     }
+    
     
     public EstudanteDTO getEstudanteAtual() {
         return estudanteAtual;
@@ -134,6 +200,23 @@ public class AdministratorManager implements Serializable{
         this.novoEstudante = novoEstudante;
     }
 
+    public ProfessorDTO getNovoProfessor() {
+        return novoProfessor;
+    }
+
+    public void setNovoProfessor(ProfessorDTO novoProfessor) {
+        this.novoProfessor = novoProfessor;
+    }
+
+    public ProfessorDTO getProfessorAtual() {
+        return professorAtual;
+    }
+
+    public void setProfessorAtual(ProfessorDTO professorAtual) {
+        this.professorAtual = professorAtual;
+    }
+
+    
     public UIComponent getComponent() {
         return component;
     }
