@@ -89,7 +89,7 @@ public class AdministratorManager implements Serializable{
         return CONST_LISTAR_URL;
     }
     
-    public Collection<EstudanteDTO> getAll() {
+    public Collection<EstudanteDTO> getAllEstudantes() {
         try{
             GenericType<Collection<EstudanteDTO>> lista = new GenericType<Collection<EstudanteDTO>>() {};
             Collection<EstudanteDTO> estudantes = client.target(URILookup.getBaseAPI())

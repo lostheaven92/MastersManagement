@@ -6,12 +6,17 @@
 package entities;
 
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 /**
  *
  * @author Alberto
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name = "getAllInstituicoes", query="SELECT i FROM Instituicao i ORDER BY i.nome")
+})
 public class Instituicao extends Utilizador{
 
     //private List<PropostaTrabalho> propostasTrabalho;

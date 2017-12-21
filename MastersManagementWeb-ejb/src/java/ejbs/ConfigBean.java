@@ -26,12 +26,19 @@ public class ConfigBean {
     @EJB
     private EstudanteBean estudanteBean;
     
+    @EJB
+    private InstituicaoBean instituicaoBean;
+    
     @PostConstruct
     public void populateDB(){
         try {
             estudanteBean.criar("a1", "a1", "Jose", "jose@dad.com");
             estudanteBean.criar("a2", "a2", "Jessica", "jessica@dad.com");
             estudanteBean.criar("a3", "a3", "Alberto", "alberto@dad.com");
+            
+            instituicaoBean.criar("i1", "i1", "Instituicao1", "inst1@dad.com");
+            instituicaoBean.criar("i2", "i2", "Instituicao2", "inst2@dad.com");
+            instituicaoBean.criar("i3", "i3", "Instituicao3", "inst3@dad.com");
         } catch (Exception e) {
             logger.warning(e.getMessage());
         }
