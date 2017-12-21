@@ -60,7 +60,7 @@ public class InstituicaoBean extends Bean<Instituicao>{
     
     @Override
     protected Collection<Instituicao> getAll() {
-        return em.createNamedQuery("getAllStudents").getResultList();
+        return em.createNamedQuery("getAllInstituicoes").getResultList();
     }
     
 }
