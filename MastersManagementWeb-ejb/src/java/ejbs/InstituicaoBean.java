@@ -11,7 +11,9 @@ import javax.ejb.Stateless;
 import javax.ws.rs.Path;
 import javax.ejb.EJBException;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 
@@ -49,9 +51,16 @@ public class InstituicaoBean extends Bean<Instituicao>{
         }
     }
 
-    @Override //TODO:
+    @GET
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Path("all")
+    public Collection<InstituicaoDTO> getAllREST(){
+        return this.getAll(InstituicaoDTO.class);
+    }
+    
+    @Override
     protected Collection<Instituicao> getAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return em.createNamedQuery("getAllStudents").getResultList();
     }
     
 }

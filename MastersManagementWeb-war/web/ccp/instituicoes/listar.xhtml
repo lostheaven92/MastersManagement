@@ -20,7 +20,7 @@
         
             <em:dt  title="Instituições" headers="#{['Nome', 'E-mail']}" 
                     props="#{['nome', 'email']}"
-                    list="#{administratorManager.allEstudantes}">
+                    list="#{administratorManager.allInstituicoes}">
             
                 <p:column headerText="Actions">
                     <h:form>
@@ -32,7 +32,7 @@
                             <f:setPropertyActionListener target="#{administratorManager.estudanteAtual}" value="#{object}" />
                         </h:commandLink>
                         &nbsp;
-                        <h:commandLink value="Eliminar" actionListener="#{administratorManager.eliminar}">
+                        <h:commandLink value="Eliminar" actionListener="#{administratorManager.eliminarEstudante}">
                             <f:param name="studentUsername" id="studentUsername" value="#{object.username}" />
                         </h:commandLink>
                     </h:form>

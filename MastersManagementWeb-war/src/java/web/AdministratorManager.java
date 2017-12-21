@@ -6,6 +6,7 @@
 package web;
 
 import dtos.EstudanteDTO;
+import dtos.InstituicaoDTO;
 import ejbs.EstudanteBean;
 import java.io.Serializable;
 import java.util.Collection;
@@ -46,7 +47,7 @@ public class AdministratorManager implements Serializable{
         client = ClientBuilder.newClient();
     }
     
-    public void eliminar(ActionEvent event){
+    public void eliminarEstudante(ActionEvent event){
         try {
             UIParameter param = (UIParameter) event.getComponent().findComponent("studentUsername");
             String username = param.getValue().toString();
@@ -62,7 +63,7 @@ public class AdministratorManager implements Serializable{
         }
     }
 
-    public String criar() {
+    public String criarEstudante() {
         try {
             client.target(URILookup.getBaseAPI())
                     .path("/students/create")
@@ -75,7 +76,7 @@ public class AdministratorManager implements Serializable{
         return CONST_LISTAR_URL;
     }
     
-    public String editar() {
+    public String editarEstudante() {
         try {
             client.target(URILookup.getBaseAPI())
                     .path("/students/update")
@@ -97,6 +98,20 @@ public class AdministratorManager implements Serializable{
                 .request(MediaType.APPLICATION_XML)
                 .get(lista);
             return estudantes;
+        } catch(Exception e){
+            FacesExceptionHandler.handleException(e, CONST_ERR_OTHER, logger);
+            return null;
+        }
+    }
+    
+        public Collection<InstituicaoDTO> getAllInstituicoes() {
+        try{
+            GenericType<Collection<InstituicaoDTO>> lista = new GenericType<Collection<InstituicaoDTO>>() {};
+            Collection<InstituicaoDTO> instituicoes = client.target(URILookup.getBaseAPI())
+                .path("/instituicoes/all")
+                .request(MediaType.APPLICATION_XML)
+                .get(lista);
+            return instituicoes;
         } catch(Exception e){
             FacesExceptionHandler.handleException(e, CONST_ERR_OTHER, logger);
             return null;
